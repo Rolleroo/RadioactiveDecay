@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "d0806448-fa7c-4a2d-aecf-bbf250382f1b",
+		"name": "Radioactive Decay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Run Calculation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"activity_unit\": \"ky\",\n\t\"nuclide_measurements\": [\n\t\t{\n\t\t\t\"name\": \"first_one\",\n\t\t\t\"activity_value\": 10\n\t\t},\n\t\t{\n\t\t\t\"name\": \"second_one\",\n\t\t\t\"activity_value\": 30\n\t\t}\n\t],\n\t\"target_time_value\": 20,\n\t\"target_time_unit\": \"ky\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6543/decay/calculate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6543",
+					"path": [
+						"decay",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

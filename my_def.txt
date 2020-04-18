@@ -1,6 +1,0 @@
-ky = yr * 1000 = [time]
-My = yr * 1000000 = [time]
-Gy = yr * 1000000000 = [time]
-Ty = yr * 1000000000000 = [time]
-Py = yr * 1000000000000000 = [time]
-y  = yr = [time]
