@@ -21,7 +21,7 @@ class Base:
             'unit': self.unit
         }
 
-class Activity(Base):
+class Concentration(Base):
     def __init__(self, value, unit):
         super().__init__(value, unit)
 

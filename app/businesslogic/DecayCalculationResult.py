@@ -1,18 +1,18 @@
 from .Nuclide import Nuclide
-from .MeasurementUnit import Activity
+from .MeasurementUnit import Concentration
 from .MeasurementUnit import Time
 
 class DecayCalculationResult:
-    def __init__(self, nuclide: Nuclide, activity: Activity, time: Time):
+    def __init__(self, nuclide: Nuclide, concentration: Concentration, time: Time):
         self.nuclide = nuclide
-        self.activity = activity
+        self.concentration = concentration
         self.time = time
 
     def __json__(self, request):
         return {
             'nuclide': self.nuclide,
             'calculation': {
-                'activity': self.activity,
+                'concentration': self.concentration,
                 'time': self.time
             }
         }

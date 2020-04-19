@@ -1,6 +1,6 @@
 from .DecayCalculationResult import DecayCalculationResult
 from .DecayCalculationRequest import DecayCalculationRequest
-from .MeasurementUnit import Activity
+from .MeasurementUnit import Concentration
 from .MeasurementUnit import Halflife
 from .MeasurementUnit import Time
 from .Nuclide import Nuclide
@@ -15,12 +15,17 @@ class Decay:
     def calculate(self) -> [DecayCalculationResult]:
         result = []
 
-        for nuclide_measurement in self.decay_calculation_request.nuclide_measurements:
+        target_time = Time(
+            value=self.decay_calculation_request.target_time_value,
+            unit=self.decay_calculation_request.target_time_unit
+        )
+
+        for measurement in self.decay_calculation_request.measurements:
             nuclide = Nuclide(
-                name=nuclide_measurement.get('name'),
-                activity=Activity(
-                    value=nuclide_measurement.get('activity_value'),
-                    unit=self.decay_calculation_request.activity_unit
+                name=measurement.get('nuclide_name'),
+                concentration=Concentration(
+                    value=measurement.get('concentration_value'),
+                    unit=measurement.get('concentration_unit')
                 ),
                 halflife=Halflife(
                     value=1,
@@ -28,18 +33,13 @@ class Decay:
                 )
             )
 
-            time = Time(
-                value=3,
-                unit="ky"
-            )
-
-            calculated_activity = nuclide.calculate_activity_at_time(time)
+            calculated_concentration = nuclide.calculate_concentration_at_time(target_time)
 
             result.append(
                 DecayCalculationResult(
                     nuclide=nuclide,
-                    activity=calculated_activity,
-                    time=time
+                    concentration=calculated_concentration,
+                    time=target_time
                 )
             )
 

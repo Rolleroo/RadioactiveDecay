@@ -1,4 +1,4 @@
-from .MeasurementUnit import Activity
+from .MeasurementUnit import Concentration
 from .MeasurementUnit import Halflife
 from .MeasurementUnit import Time
 
@@ -7,20 +7,20 @@ class Nuclide:
         self, 
         name: str, 
         halflife: Halflife,
-        activity: Activity
+        concentration: Concentration
     ):
         self.name = name
-        self.activity = activity
+        self.concentration = concentration
         self.halflife = halflife
 
     def __json__(self, request):
         return {
             'name': self.name,
-            'activity': self.activity,
+            'concentration': self.concentration,
             'halflife': self.halflife
         }
 
-    def calculate_activity_at_time(self, time: Time) -> Activity:
+    def calculate_concentration_at_time(self, time: Time) -> Concentration:
         full_HL = self.halflife.quantity
         full_time = time.quantity
         ## Changes the decay time and halflife to be seconds
@@ -43,9 +43,9 @@ class Nuclide:
 
         ## Calculates the amount of nuclide left after the time.
         ## As per https://en.wikipedia.org/wiki/Half-life
-        finalactivity = Activity(
-            value=self.activity.value * 0.5 ** t_over_h,
-            unit=self.activity.unit
+        finalconcentration = Concentration(
+            value=self.concentration.value * 0.5 ** t_over_h,
+            unit=self.concentration.unit
         )
 
-        return finalactivity
+        return finalconcentration
