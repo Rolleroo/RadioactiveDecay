@@ -1,12 +1,13 @@
 ## The example equation from Batemaneq GitHub page
 
-## Requires the following packages numpy, cython, scipy, pytest.
+## Requires the following packages numpy, cython, scipy.
 ## Nuclides with half lifes of less than one hour are dropped automatically in batemaneq module.
 ## Bateman equation uses concentrations rather than activity (Bq).
 ## The activity therefore has to be converted to a concentration for calculation.
 
 from batemaneq import bateman_parent
 from math import log as ln
+import sys
 
 d = 1./365  # Converts to days. Needs parsing through the pints module.
 h = d/24    # Converts to years. Needs parsing through the pints module.
@@ -18,14 +19,16 @@ act_conv = (6.02214076e23 * ln(2)) / 24 / 365 / 60 / 60
 ## This is dimensionless, units added at the end.
 user_activity = 1e9
 
-hl_nuclide1 = 4.468e9 # U238 trial
-hl_nuclide2 = 24.1 * d # Th234 trial
-hl_nuclide3 = 2.445e5 # U234 trial
-hl_nuclide4 = 7.54e4 # Th230 trial
+
+## Test data for the calculations
+hl_nuclide1 = 4.468000e9 # U238 trial
+hl_nuclide2 = 24.1000 * d # Th234 trial
+hl_nuclide3 = 7.54e4 # U234 trial
+hl_nuclide4 = 7.54000e4 # Th230 trial
 hl_nuclide5 = 1600 # Ra226 trial
 hl_nuclide6 = 3.823 * d # Rn 222 trial
 
-decay_time = 100 # User input decay time in years
+decay_time = 4.468e9 # User input decay time in years
 
 user_conc = user_activity* hl_nuclide1 / act_conv
 print(user_conc) # prints out the concentration of the initial radionuclide in moles for testing.
@@ -33,6 +36,18 @@ print(user_conc) # prints out the concentration of the initial radionuclide in m
 ## This sections formats for inputt to batemaneq module and carries out calculation through batemaneq.
 ## Initial radionuclide concentration is set to 1 all others are zero
 Thalf = [hl_nuclide1, hl_nuclide2, hl_nuclide3, hl_nuclide4, hl_nuclide5, hl_nuclide6]
+
+## Determines if consecutive HL values are too similar and prints an error
+for x, y in zip(Thalf, Thalf[1:]):
+    if x/y == 1:
+        print("Consecutive half-life values are equal. This does not compute please check and try again\n")
+        sys.exit(1)
+
+    if  0.2 <= x/y <= 5:
+        print("Consecutive half-life values are very similar.Bateman equation struggles with these values and there"
+              " may be some error in the final results.\nPlease check the results\n")
+
+
 result = bateman_parent([ln(2)/x for x in Thalf], decay_time)
 print(result)  # Outputs the results for testing
 
