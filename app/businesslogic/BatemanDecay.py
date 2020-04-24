@@ -23,8 +23,8 @@ user_activity = 1e9
 ## Test data for the calculations
 hl_nuclide1 = 4.468000e9 # U238 trial
 hl_nuclide2 = 24.1000 * d # Th234 trial
-hl_nuclide3 = 7.54e4 # U234 trial
-hl_nuclide4 = 7.54000e4 # Th230 trial
+hl_nuclide3 = 2.455e5 # U234 trial
+hl_nuclide4 = 7.538e4 # Th230 trial
 hl_nuclide5 = 1600 # Ra226 trial
 hl_nuclide6 = 3.823 * d # Rn 222 trial
 
@@ -44,7 +44,8 @@ for x, y in zip(Thalf, Thalf[1:]):
         sys.exit(1)
 
     if  0.2 <= x/y <= 5:
-        print("Consecutive half-life values are very similar.Bateman equation struggles with these values and there"
+        print("Consecutive half-life values are very similar. "
+              "The Bateman equation struggles with these values and there"
               " may be some error in the final results.\nPlease check the results\n")
 
 
