@@ -5,7 +5,7 @@
 ## Bateman equation uses concentrations rather than activity (Bq).
 ## The activity therefore has to be converted to a concentration for calculation.
 
-import sys
+# import sys
 from pint import UnitRegistry
 ureg = UnitRegistry()
 
@@ -22,34 +22,57 @@ ACT_CONV  = (AVOGADRO_NUMBER * ln(2)) / 24 / 365 / 60 / 60
 
 ## User input
 
-decay_time = Time(0.1, "yr").quantity
-hl_nuclide1 = Halflife(4.468e9, "yr").quantity
-nuclide1_conc = Concentration(10000, "Bq").quantity
-nuclide1 = Nuclide("U-238", hl_nuclide1, nuclide1_conc)
-
+decay_time = Time(1, "yr").quantity
+hl_nuclide1 = Halflife(7.04E+08, "yr").quantity
+nuclide1_conc = Concentration(10000, "Bq").quantity.to(ureg.Bq)
+nuclide1 = Nuclide("U-235", hl_nuclide1, nuclide1_conc)
+zero_nuclide_conc = Concentration(0, "Bq").quantity
 
 ## Converts the Bq of nuclide 1 into moles
 real_nuclide_conc = (nuclide1_conc.magnitude * hl_nuclide1.magnitude / ACT_CONV)
 
 ## Test data for the calculations
 
-hl_nuclide2 = Halflife(24.1, "d").quantity  # Th234 trial
-hl_nuclide3 = Halflife(2.455e5, "yr").quantity  # U234 trial
-hl_nuclide4 = Halflife(7.538e4, "yr").quantity # Th230 trial
-hl_nuclide5 = Halflife(1600, "yr").quantity  # Ra226 trial
-hl_nuclide6 = Halflife(3.823, "d").quantity  # Rn 222 trial
-hl_nuclide7 = Halflife(3.05, "min").quantity  # Po 218 trial
-hl_nuclide8 = Halflife(26, ",min").quantity  # Pb 214 trial
-hl_nuclide9 = Halflife(19.9, "min").quantity  # Bi 214 trial
-hl_nuclide10 = Halflife(160, "usec").quantity  # Po 214 trial
-hl_nuclide11 = Halflife(22.26, "y").quantity  # Pb 210 trial
+hl_nuclide2 = Halflife(25.52, "hour").quantity  # Th-231 trial
+hl_nuclide3 = Halflife(32760.0, "yr").quantity  # Pa-231 trial
+hl_nuclide4 = Halflife(21.772, "yr").quantity # Ac-227 trial
+hl_nuclide5 = Halflife(16.68, "d").quantity  # Th-227 trial
+hl_nuclide6 = Halflife(22.0, "minute").quantity  # Fr-223 trial
+hl_nuclide7 = Halflife(11.43, "d").quantity  # Ra-223 trial
+hl_nuclide8 = Halflife(56, ",sec").quantity  # At-219 trial
+hl_nuclide9 = Halflife(3.96, "sec").quantity  # Rn-219 trial
 
-## Assumed format for output from decay chain
-decay_chain = (hl_nuclide1, hl_nuclide2, hl_nuclide3, hl_nuclide4, hl_nuclide5, hl_nuclide6, hl_nuclide7,
-               hl_nuclide8, hl_nuclide9, hl_nuclide10, hl_nuclide11)
+
+nuclide2 = Nuclide("Th-231", hl_nuclide2, zero_nuclide_conc)
+nuclide3 = Nuclide("Pa-231", hl_nuclide3, zero_nuclide_conc)
+nuclide4 = Nuclide("Ac-227", hl_nuclide4, zero_nuclide_conc)
+nuclide5 = Nuclide("Th-227", hl_nuclide5, zero_nuclide_conc)
+nuclide6 = Nuclide("Fr-223", hl_nuclide6, zero_nuclide_conc)
+nuclide7 = Nuclide("Ra-223", hl_nuclide7, zero_nuclide_conc)
+nuclide8 = Nuclide("At-219", hl_nuclide8, zero_nuclide_conc)
+nuclide9 = Nuclide("Rn-219", hl_nuclide9, zero_nuclide_conc)
+
+## This is the fractional contribution of the chain. Added for completeness
+fraction = 1
+
+## It is assumed this will be the output format from the lookup tables.
+chain = (nuclide1, nuclide2, nuclide3, nuclide4, nuclide5,
+         nuclide6, nuclide7, nuclide8, nuclide9, fraction)
+
+## Creates the a list of the nuclide names and halflifes based on the order in chain
+decay_chain = []
+for i in chain[:-1]:
+    hl = i
+    decay_chain.append(hl.halflife)
+
+name_chain = []
+for i in chain[:-1]:
+    nuc_name = i
+    name_chain.append(nuc_name.name)
 
 ## This sections formats for inputt to batemaneq module and carries out calculation through batemaneq.
-## Initial radionuclide concentration is set to 1 all others are zero
+## Initial radionuclide concentration is set to 1 all zeros are zero
+## time units are converted to years with the to(ureg.year) function
 
 Thalf = []
 
@@ -72,17 +95,22 @@ for x in decay_chain:
 ## Runs the bateman decay and outputs the results
 result = bateman_parent([ln(2)/x for x in Thalf], decay_time.magnitude) # ignores halflifes less than 1 day
 
-## Converts the results output to final activity in Bq
+## Converts the results output to final activity in Bq and appends them to final_act list
 final_act = []
-z = 0
+a = 0
 for i in result:
-    x = i * (ACT_CONV / Thalf[z]) * real_nuclide_conc
-    y = x * ureg.Bq
-    final_act.append(y)
-    z += 1
+    w = i * (ACT_CONV / Thalf[a]) * real_nuclide_conc
+    q = Concentration(w, "Bq").quantity
+    z = Nuclide(name_chain[a], decay_chain[a], q)
+    final_act.append(z)
+    a += 1
 
-## For testing, outputs the final_act in Bq
-for x in final_act:
-    print(x)
+final_act.append(fraction)
+
+
+## Test which outputs the contents of final_act
+for i in final_act[:-1]:
+    testnuc = i
+    print(testnuc.concentration)
 
 
