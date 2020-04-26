@@ -1,3 +1,6 @@
-nuclide,halflife,units,daughter
-A-90,100,y,B-84
-B-86,20,d,C-82$
+nuclide,halflife,units,daughter1,daughter2
+A-90,100,y,B-86,C-90
+B-86,20,d,C-82,
+C-82,10000000,y,D-78$,
+C-90,1,m,E-86,
+E-86,1000000000,y,F-82$,

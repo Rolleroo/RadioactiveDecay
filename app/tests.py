@@ -1,6 +1,4 @@
 import unittest
-import batemaneq
-import pytest
 
 from pyramid import testing
 
