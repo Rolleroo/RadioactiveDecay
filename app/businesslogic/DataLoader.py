@@ -38,7 +38,7 @@ class DataRow:
 
         self.COLUMN_COL = [
             1,
-            9,
+            8,
             18,
             27,
             34,

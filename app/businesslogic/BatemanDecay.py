@@ -126,7 +126,7 @@ from app.businesslogic.MeasurementUnit import Concentration
 chain_generator = Generator()
 
 # user supplied
-nuclide_name = 'Ag-117'
+nuclide_name = 'U-238'
 concentration_value = 30,
 concentration_unit = 'Bq'
 
@@ -144,7 +144,15 @@ for idx, chain in enumerate(chains):
     # add your bateman calculation somewhere here for each chain
 
     # code below simply prints the derived chains for information only
+    
     print('Chain number:', idx + 1)
+
+    # halflifes = [
+    #     str(item.nuclide.halflife.quantity) if item.nuclide.halflife else None
+    #     for item in chain.items
+    # ]
+    # print(halflifes)
+
     for item in chain.items:
         nuclide = item.nuclide
         radioactive = item.nuclide.radioactive
