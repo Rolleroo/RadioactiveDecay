@@ -32,6 +32,7 @@ zero_nuclide_conc = Concentration(0, "Bq").quantity
 real_nuclide_conc = (nuclide1_conc.magnitude * hl_nuclide1.magnitude / ACT_CONV)
 
 ## Test data for the calculations
+## Requires a lookup function here to look up the halflife of the nuclides in the list
 
 hl_nuclide2 = Halflife(25.52, "hour").quantity  # Th-231 trial
 hl_nuclide3 = Halflife(32760.0, "yr").quantity  # Pa-231 trial
@@ -113,4 +114,5 @@ for i in final_act[:-1]:
     testnuc = i
     print(testnuc.concentration)
 
+print(result)
 
