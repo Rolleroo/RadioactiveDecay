@@ -19,6 +19,8 @@ class Nuclide:
         self.radioactive = radioactive
         if halflife_value and halflife_unit:
             self.halflife = Halflife(halflife_value, halflife_unit)
+        else:
+            self.halflife = None
         self.decay_mode = decay_mode
         self.daughter_nuclide_names = daughter_nuclide_names
         self.daughter_nuclide_ratios = daughter_nuclide_ratios
