@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"measurements\": [\n\t\t{\n\t\t\t\"nuclide_name\": \"first_one\",\n\t\t\t\"concentration_value\": 10,\n\t\t\t\"concentration_unit\": \"ky\"\n\t\t},\n\t\t{\n\t\t\t\"nuclide_name\": \"second_one\",\n\t\t\t\"concentration_value\": 30,\n\t\t\t\"concentration_unit\": \"ky\"\n\t\t}\n\t],\n\t\"target_time_value\": 20,\n\t\"target_time_unit\": \"ky\"\n}",
+					"raw": "{\n\t\"measurements\": [\n\t\t{\n\t\t\t\"nuclide_name\": \"Ag-117\",\n\t\t\t\"concentration_value\": 30,\n\t\t\t\"concentration_unit\": \"Bq\"\n\t\t},\n\t\t{\n\t\t\t\"nuclide_name\": \"Tl-206m\",\n\t\t\t\"concentration_value\": 10,\n\t\t\t\"concentration_unit\": \"Bq\"\n\t\t},\n\t\t{\n\t\t\t\"nuclide_name\": \"Ac-223\",\n\t\t\t\"concentration_value\": 30,\n\t\t\t\"concentration_unit\": \"Bq\"\n\t\t}\n\t],\n\t\"target_time_value\": 20,\n\t\"target_time_unit\": \"ky\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
