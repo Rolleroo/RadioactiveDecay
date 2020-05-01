@@ -158,9 +158,11 @@ for idx, chain in enumerate(chains):
         radioactive = item.nuclide.radioactive
         ratio = item.ratio
         halflife = item.nuclide.halflife
+        concentration = item.concentration
         print(
             'Nuclide name:', nuclide.name, 
             'Radioactive:', radioactive, 
             'Decay ratio:', ratio,
-            'Halflife:', halflife.quantity if halflife else None
+            'Halflife:', halflife.quantity if halflife else None,
+            'Concentration:', concentration
         )

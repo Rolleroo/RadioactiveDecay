@@ -1,6 +1,7 @@
 import copy
 from app.businesslogic.DataLoader import DataLoader
 from app.businesslogic.Nuclide import Nuclide
+from app.businesslogic.MeasurementUnit import Concentration
 
 class Chain():
     def __init__(self):
@@ -13,9 +14,10 @@ class Chain():
         ]
 
 class Item():
-    def __init__(self, nuclide: Nuclide, ratio: float):
+    def __init__(self, nuclide: Nuclide, ratio: float, concentration: Concentration = None):
         self.nuclide = nuclide
         self.ratio = ratio
+        self.concentration = concentration
 
 class Generator():
     def __init__(self):
