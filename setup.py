@@ -15,7 +15,12 @@ requires = [
     'pyramid_debugtoolbar',
     'waitress',
     'cornice',
-    'pint'
+    'pint',
+    'numpy',
+    'cython',
+    'scipy',
+    'batemaneq',
+    'prettyprinter'
 ]
 
 tests_require = [

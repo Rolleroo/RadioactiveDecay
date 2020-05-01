@@ -21,3 +21,9 @@
 * Run your project:
 
     ```env/bin/pserve development.ini```
+
+## Data
+* Radionuclide decay
+Article: https://www.icrp.org/publication.asp?id=ICRP%20Publication%20107
+Supplementary Data (ZIP file): https://journals.sagepub.com/doi/suppl/10.1177/ANIB_38_3
+File used: ./ICRP-07.NDX (column names as per ./UserGuide.pdf - table on page 4)
