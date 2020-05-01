@@ -113,4 +113,37 @@
 #     testnuc = i
 #     print(testnuc.concentration)
 
+import json
+from app.businesslogic.DecayChain import Generator
+from app.businesslogic.MeasurementUnit import Concentration
 
+chain_generator = Generator()
+
+# user supplied
+nuclide_name = 'Ag-117'
+concentration_value = 30,
+concentration_unit = 'Bq'
+
+# start process of calculating stuff
+concentration = Concentration(
+    value=concentration_value,
+    unit=concentration_unit
+)
+
+# generate the decay chains for the supplied nuclide name
+chains = chain_generator.get_for_nuclide_name(nuclide_name)
+
+# loop over decay chains and calculate
+for idx, chain in enumerate(chains):
+    print('Chain number:', idx + 1)
+    for item in chain.items:
+        nuclide = item.nuclide
+        radioactive = item.nuclide.radioactive
+        ratio = item.ratio
+        print(
+            'Nuclide name:', nuclide.name, 
+            'Radioactive:', radioactive, 
+            'Decay ratio:', ratio
+        )
+
+    # add your bateman calculation somewhere here for each chain
