@@ -1,124 +1,3 @@
-# ## The example equation from Batemaneq GitHub page
-
-# ## Requires the following packages numpy, cython, scipy.
-# ## Nuclides with half lifes of less than one hour are dropped automatically in batemaneq module.
-# ## Bateman equation uses concentrations rather than activity (Bq).
-# ## The activity therefore has to be converted to a concentration for calculation.
-
-# # import sys
-# from pint import UnitRegistry
-# ureg = UnitRegistry()
-
-# from batemaneq import bateman_parent
-# from math import log as ln # required for bateman module to function
-# from app.businesslogic.Nuclide import Nuclide
-# from MeasurementUnit import Time
-# from MeasurementUnit import Halflife
-# from MeasurementUnit import Concentration
-
-# # Calculates a constant which converts Bq etc to concentration.
-# AVOGADRO_NUMBER = 6.02214076e23
-# ACT_CONV  = (AVOGADRO_NUMBER * ln(2)) / 24 / 365 / 60 / 60
-
-# ## User input
-
-# decay_time = Time(1, "yr").quantity
-# hl_nuclide1 = Halflife(7.04E+08, "yr").quantity
-# nuclide1_conc = Concentration(10000, "Bq").quantity.to(ureg.Bq)
-# nuclide1 = Nuclide("U-235", hl_nuclide1, nuclide1_conc)
-# zero_nuclide_conc = Concentration(0, "Bq").quantity
-
-# ## Converts the Bq of nuclide 1 into moles
-# real_nuclide_conc = (nuclide1_conc.magnitude * hl_nuclide1.magnitude / ACT_CONV)
-
-# ## Test data for the calculations
-
-# hl_nuclide2 = Halflife(25.52, "hour").quantity  # Th-231 trial
-# hl_nuclide3 = Halflife(32760.0, "yr").quantity  # Pa-231 trial
-# hl_nuclide4 = Halflife(21.772, "yr").quantity # Ac-227 trial
-# hl_nuclide5 = Halflife(16.68, "d").quantity  # Th-227 trial
-# hl_nuclide6 = Halflife(22.0, "minute").quantity  # Fr-223 trial
-# hl_nuclide7 = Halflife(11.43, "d").quantity  # Ra-223 trial
-# hl_nuclide8 = Halflife(56, ",sec").quantity  # At-219 trial
-# hl_nuclide9 = Halflife(3.96, "sec").quantity  # Rn-219 trial
-
-
-# nuclide2 = Nuclide("Th-231", hl_nuclide2, zero_nuclide_conc)
-# nuclide3 = Nuclide("Pa-231", hl_nuclide3, zero_nuclide_conc)
-# nuclide4 = Nuclide("Ac-227", hl_nuclide4, zero_nuclide_conc)
-# nuclide5 = Nuclide("Th-227", hl_nuclide5, zero_nuclide_conc)
-# nuclide6 = Nuclide("Fr-223", hl_nuclide6, zero_nuclide_conc)
-# nuclide7 = Nuclide("Ra-223", hl_nuclide7, zero_nuclide_conc)
-# nuclide8 = Nuclide("At-219", hl_nuclide8, zero_nuclide_conc)
-# nuclide9 = Nuclide("Rn-219", hl_nuclide9, zero_nuclide_conc)
-
-# ## This is the fractional contribution of the chain. Added for completeness
-# fraction = 1
-
-# ## It is assumed this will be the output format from the lookup tables.
-# chain = (nuclide1, nuclide2, nuclide3, nuclide4, nuclide5,
-#          nuclide6, nuclide7, nuclide8, nuclide9, fraction)
-
-# ## Creates the a list of the nuclide names and halflifes based on the order in chain
-# decay_chain = []
-# for i in chain[:-1]:
-#     hl = i
-#     decay_chain.append(hl.halflife)
-
-# name_chain = []
-# for i in chain[:-1]:
-#     nuc_name = i
-#     name_chain.append(nuc_name.name)
-
-# ## This sections formats for inputt to batemaneq module and carries out calculation through batemaneq.
-# ## Initial radionuclide concentration is set to 1 all zeros are zero
-# ## time units are converted to years with the to(ureg.year) function
-
-# Thalf = []
-
-# for x in decay_chain:
-#     x.to(ureg.year)
-#     Thalf.append(x.magnitude)
-
-# # ## Determines if consecutive HL values are too similar and prints an error. R
-# # ## Removed for now, errors are dependent on relationship to all half-lifes!!!
-# # for x, y in zip(Thalf, Thalf[1:]):
-# #     if x == y:
-# #         print("Consecutive half-life values are equal. This does not compute please check and try again\n")
-# #         sys.exit(1)
-# #
-# #     if  0.2 <= x/y <= 5:
-# #         print("Consecutive half-life values are very similar. "
-# #               "The Bateman equation struggles with these values and there"
-# #               " may be some error in the final results.\nPlease check the results\n")
-
-# ## Runs the bateman decay and outputs the results
-# result = bateman_parent([ln(2)/x for x in Thalf], decay_time.magnitude) # ignores halflifes less than 1 day
-
-# ## Converts the results output to final activity in Bq and appends them to final_act list
-# final_act = []
-# a = 0
-# for i in result:
-#     w = i * (ACT_CONV / Thalf[a]) * real_nuclide_conc
-#     q = Concentration(w, "Bq").quantity
-#     z = Nuclide(name_chain[a], decay_chain[a], q)
-#     final_act.append(z)
-#     a += 1
-
-# final_act.append(fraction)
-
-
-# ## Test which outputs the contents of final_act
-# for i in final_act[:-1]:
-#     testnuc = i
-#     print(testnuc.concentration)
-
-
-
-##############
-### NEW CODE
-##############
-
 import json
 from app.businesslogic.DecayChain import Generator
 from app.businesslogic.MeasurementUnit import Concentration
@@ -134,9 +13,9 @@ chain_generator = Generator()
 
 # user supplied
 nuclide_name = 'U-238'
-concentration_value = 30,
+concentration_value = 30
 concentration_unit = 'Bq'
-decay_time = Time(42468000000.0, "yr").quantity
+decay_time = Time(421, "yr").quantity
 
 # start process of calculating stuff
 concentration = Concentration(
@@ -148,29 +27,17 @@ concentration = Concentration(
 chains = chain_generator.get_for_nuclide_name(nuclide_name)
 
 ## opens a final results list
-f_result[]
-
+f_result = {}
 
 # loop over decay chains and calculate
 for idx, chain in enumerate(chains):
     # add your bateman calculation somewhere here for each chain
 
-
-
     # code below simply prints the derived chains for information only
     
-    print('Chain number:', idx + 1)
+    # print('Chain number:', idx + 1)
 
-    # halflifes = [
-    #     str(item.nuclide.halflife.quantity) if item.nuclide.halflife else None
-    #     for item in chain.items
-    # ]
-    # print(halflifes)
-
-    b_ratio = 1
-    b_chain = []
     Thalf = []
-    d_result = []
 
     for item in chain.items:
         nuclide = item.nuclide
@@ -178,44 +45,41 @@ for idx, chain in enumerate(chains):
         ratio = item.ratio
         halflife = item.nuclide.halflife
         concentration = item.concentration
-        print(
-            'Nuclide name:', nuclide.name,
-            'Radioactive:', radioactive,
-            'Decay ratio:', ratio,
-            'Halflife:', halflife.quantity if halflife else None,
-            'Concentration:', concentration
-        )
+        # print(
+        #     'Nuclide name:', nuclide.name,
+        #     'Radioactive:', radioactive,
+        #     'Decay ratio:', ratio,
+        #     'Halflife:', halflife.quantity if halflife else None,
+        #     'Concentration:', concentration
+        # )
 
-        ## Calculates the overall branching ratio for the chain
-        if item.ratio != None:
-            b_ratio = b_ratio * item.ratio
-
-        ## Builds a list of nuclide names to reconstruct the chain after input through bateman
-        if item.nuclide.halflife != None:
-            b_chain.append(nuclide)
-
-        ## Builds the halflife chain for input into bateman.
+        ## Builds the halflife chain for input into bateman, drops stable isotopes.
         if item.nuclide.halflife != None:
             x = item.nuclide.halflife.quantity
             x.ito(ureg.years)
             Thalf.append(x.magnitude)
 
-    ## Runs results through bateman
-    result_d = bateman_parent([ln(2) / x for x in Thalf], decay_time.magnitude) # ignores halflifes less than 1 day
+    ## Runs results through bateman module.
+    output_items = bateman_parent([ln(2) / x for x in Thalf], decay_time.magnitude) # ignores halflifes less than 1 day
 
     ## Converts the results output to final activity concentration units and appends them to final_act list
-    print(result_d)
-    final_act = []
-    a = 0
-    for i in result_d:
-        w = i * (Thalf[0]/Thalf[a]) * concentration_value[0]
-        q = Concentration(w * b_ratio, concentration_unit)
-        z = Nuclide(b_chain[a].name, b_chain[a].halflife)
-        y = z, q
-        final_act.append(y)
-        a += 1
 
-    ## Test which outputs the contents of final_act
-    for i in final_act[:-1]:
-        testnuc = i[1]
-        print(testnuc.value)
+    for idx, output_item in enumerate(output_items):
+        nuclide = chain.items[idx].nuclide
+        if not f_result.get(nuclide.name):
+            f_result[nuclide.name] = 0
+        w = output_item * (Thalf[0] / Thalf[idx]) * concentration_value
+        q = Concentration(w * chain.ratio, concentration_unit)
+        f_result[nuclide.name] += float(q.value)
+
+for nuclide_name, total_conc in f_result.items():
+    nuclide = chain_generator.nuclides_dict.get(nuclide_name)
+    print(
+            nuclide.name,"\t Halflife:  ",
+            nuclide.halflife.value,
+            nuclide.halflife.unit,
+            "\t Final Concentration:  ",
+            total_conc,
+            concentration_unit
+          )
+

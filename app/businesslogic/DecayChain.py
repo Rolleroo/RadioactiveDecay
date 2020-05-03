@@ -6,6 +6,7 @@ from app.businesslogic.MeasurementUnit import Concentration
 class Chain():
     def __init__(self):
         self.items = []
+        self.ratio = 1
 
     def get_nuclide_names(self):
         return [
@@ -33,6 +34,8 @@ class Generator():
                 ratio=ratio
             )
             chain.items.append(item)
+
+            chain.ratio = ratio * chain.ratio
 
             for idx, daughter_nuclide_name in enumerate(nuclide.daughter_nuclide_names):
                 daughter_nuclide_ratio = nuclide.daughter_nuclide_ratios[idx]
