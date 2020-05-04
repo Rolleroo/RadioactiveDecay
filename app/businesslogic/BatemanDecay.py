@@ -15,7 +15,7 @@ chain_generator = Generator()
 nuclide_name = 'U-238'
 concentration_value = 30
 concentration_unit = 'Bq'
-decay_time = Time(421, "yr").quantity
+decay_time = Time(1000000000, "yr").quantity
 
 # start process of calculating stuff
 concentration = Concentration(
@@ -27,24 +27,24 @@ concentration = Concentration(
 chains = chain_generator.get_for_nuclide_name(nuclide_name)
 
 ## opens a final results list
-f_result = {}
+final_result = {}
 
-# loop over decay chains and calculate
+## loop over decay chains and calculate
 for idx, chain in enumerate(chains):
-    # add your bateman calculation somewhere here for each chain
 
-    # code below simply prints the derived chains for information only
-    
-    # print('Chain number:', idx + 1)
+
+    # print('Chain number:', idx + 1) # Testing, loop through of chains.
 
     Thalf = []
 
     for item in chain.items:
         nuclide = item.nuclide
-        radioactive = item.nuclide.radioactive
         ratio = item.ratio
         halflife = item.nuclide.halflife
-        concentration = item.concentration
+
+        ## Used for testing, prints out each decay chain
+        # radioactive = item.nuclide.radioactive
+        # concentration = item.concentration
         # print(
         #     'Nuclide name:', nuclide.name,
         #     'Radioactive:', radioactive,
@@ -60,26 +60,28 @@ for idx, chain in enumerate(chains):
             Thalf.append(x.magnitude)
 
     ## Runs results through bateman module.
-    output_items = bateman_parent([ln(2) / x for x in Thalf], decay_time.magnitude) # ignores halflifes less than 1 day
+    output_items = bateman_parent([ln(2) / x for x in Thalf], decay_time.magnitude)
 
-    ## Converts the results output to final activity concentration units and appends them to final_act list
+    ## Converts the results output to final activity concentration units and appends them to final_result dicionary
 
     for idx, output_item in enumerate(output_items):
         nuclide = chain.items[idx].nuclide
-        if not f_result.get(nuclide.name):
-            f_result[nuclide.name] = 0
-        w = output_item * (Thalf[0] / Thalf[idx]) * concentration_value
-        q = Concentration(w * chain.ratio, concentration_unit)
-        f_result[nuclide.name] += float(q.value)
+        if not final_result.get(nuclide.name):
+            final_result[nuclide.name] = 0
+        final_conc = output_item * (Thalf[0] / Thalf[idx]) * concentration_value
+        relative_conc = Concentration(final_conc * chain.ratio, concentration_unit)
+        final_result[nuclide.name] += float(relative_conc.value)
 
-for nuclide_name, total_conc in f_result.items():
+
+## For testing, prints out the final results.
+for nuclide_name, f_nuc_conc in final_result.items():
     nuclide = chain_generator.nuclides_dict.get(nuclide_name)
     print(
             nuclide.name,"\t Halflife:  ",
             nuclide.halflife.value,
             nuclide.halflife.unit,
             "\t Final Concentration:  ",
-            total_conc,
+            f_nuc_conc,
             concentration_unit
           )
 
