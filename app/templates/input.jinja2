@@ -1,0 +1,14 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  <form action="/output" method="post">
+    <div class="form-group">
+      <label for="userChoice">Enter something</label>
+      <input type="text" class="form-control" id="userChoice" name="userChoice" aria-describedby="userChoiceHelp">
+      <small id="userChoiceHelp" class="form-text text-muted">Some explanation what this is.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+{% endblock content %}
