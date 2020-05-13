@@ -1,0 +1,60 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Input{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+    <div class="row">
+        <div class=""col">
+        <h1>Output Data</h1>
+        <hr>
+        <ul>
+
+            <p>
+            <table class="table table-hover table-borderless">
+        <thead>
+            <TR>
+                <TH scope="col">Nuclide</TH>
+                  <TH scope="col">Concentration, {{ aunit }}</TH>
+                  <TH scope="col">Halflife</TH>
+                  <TH scope="col"> Halflife Units *</TH>
+            </TR>
+             </thead>
+                <TR>
+              {% for name, values in result1.items() %}
+                    <TD >{{ name }}</TD>
+                    <TD >{{ values[0] }}</TD>
+                    <TD >{{ values[2] }}</TD>
+                    <TD >{{ values[3] }}</TD>
+
+                  </TR>
+                {% endfor %}
+{##}
+{#                <TR>#}
+{#              {% for name, values in result2.items() %}#}
+{#                    <TD >{{ name }}</TD>#}
+{#                    <TD >{{ values[0] }}</TD>#}
+{#                    <TD >{{ values[2] }}</TD>#}
+{#                    <TD >{{ values[3] }}</TD>#}
+{##}
+{#                  </TR>#}
+{#                {% endfor %}#}
+
+            </table>
+
+            * y = years, d = days, h = hours m = minutes, s = seconds
+            </p>
+
+
+        </ul>
+
+
+    </div>
+    </div>
+    </div>
+
+
+
+
+{% endblock %}>

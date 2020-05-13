@@ -1,0 +1,82 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Input{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+    <div class="row">
+        <div class=""col">
+        <h1>Input Data</h1>
+        <hr>
+
+        <form action="/input" METHOD="POST">
+
+        <div class="form-group">
+            <label for="time">Time</label>
+            <input class="form-control" type="number" name="time" required>
+        </div>
+
+          <div class="form-group">
+    <label for="selectTimeUnits">Time Units</label>
+    <select class="form-control" id="selectTimeUnits" name="tunit" required>
+      <option>years</option>
+      <option>days</option>
+      <option>hours</option>
+      <option>minutes</option>
+      <option>seconds</option>
+    </select>
+  </div>
+
+
+            <div class="form-group">
+    <label for="selectActivityUnits">Activity Units</label>
+    <select class="form-control" id="selectActivityUnits" name="aunit" required>
+      <option>Bq</option>
+      <option>kBq</option>
+      <option>MBq</option>
+      <option>GBq</option>
+        <option>uCi</option>
+        <option>mCi</option>
+        <option>Ci</option>
+    </select>
+    </div>
+
+{#        <div class="form-group">#}
+{#            <label>Concentration Units</label>#}
+{#            <input class="form-control" type="text" name="aunit">#}
+{#        </div>#}
+
+            <div class="form-group">
+            <label>Nuclide 1</label>
+            <input class="form-control" type="text" name="nuclide1" required>
+        </div>
+
+                    <div class="form-group">
+            <label>Activity 1</label>
+            <input class="form-control" type="number" name="activity1" required>
+        </div>
+                    <div class="form-group">
+            <label>Nuclide 2</label>
+            <input class="form-control" type="text" name="nuclide2">
+        </div>
+
+                    <div class="form-group">
+            <label>Activity 2</label>
+            <input class="form-control" type="number" name="activity2">
+        </div>
+
+        <button type="submit" class="btn btn-outline-dark">Decay Nuclides</button>
+
+        </form>
+
+
+
+    </div>
+    </div>
+    </div>
+
+
+
+
+{% endblock %}

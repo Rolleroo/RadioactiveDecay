@@ -1,0 +1,3 @@
+Flask~=1.1.2
+batemaneq~=0.2.2
+Pint~=0.11
