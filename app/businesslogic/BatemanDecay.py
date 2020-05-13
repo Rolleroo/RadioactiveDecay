@@ -86,30 +86,29 @@ def bateman_trial(nuclide, time, tunit, conc, aunit):
 
 
 
-    ## Reconstructs the data as a tuple and returns the result as output_result
-    for nuclide_name, f_nuc_conc in final_result.items():
-        nuclide = chain_generator.nuclides_dict.get(nuclide_name)
-        # print(
-        #     nuclide.name, "\t ,Halflife:  ",
-        #     nuclide.halflife.value,
-        #     "\t\t",
-        #     nuclide.halflife.unit,
-        #     "\t Final Concentration:  ",
-        #     f_nuc_conc,
-        #     concentration_unit
-        #     )
+    # ## Reconstructs the data as a tuple and returns the result as output_result
+    # for nuclide_name, f_nuc_conc in final_result.items():
+    #     nuclide = chain_generator.nuclides_dict.get(nuclide_name)
+    #     # print(
+    #     #     nuclide.name, "\t ,Halflife:  ",
+    #     #     nuclide.halflife.value,
+    #     #     "\t\t",
+    #     #     nuclide.halflife.unit,
+    #     #     "\t Final Concentration:  ",
+    #     #     f_nuc_conc,
+    #     #     concentration_unit
+    #     #     )
+    #
+    #
+    #     # other_data = { 'name' : nuclide_name,
+    #     #                'conc' : format(f_nuc_conc,'.4g'),
+    #     #                'concunit' : concentration_unit,
+    #     #                'hl' : nuclide.halflife.value,
+    #     #                'hl_unit' : nuclide.halflife.unit
+    #     #                }
+    #     # output_result.update(other_data)
+    #     # # return output_result
 
 
-        # other_data = { 'name' : nuclide_name,
-        #                'conc' : format(f_nuc_conc,'.4g'),
-        #                'concunit' : concentration_unit,
-        #                'hl' : nuclide.halflife.value,
-        #                'hl_unit' : nuclide.halflife.unit
-        #                }
-        # output_result.update(other_data)
-        # # return output_result
-
-    print(final_result)
     return final_result
 
-# print(output_result)

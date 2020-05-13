@@ -26,6 +26,8 @@ def input():
         user_aunit = str(input["aunit"])
         user_activity1 = float(input["activity1"])
 
+        chain_generator = Generator()
+
         if not input["activity2"]:
             result1 = bateman_trial(user_nuclide1, user_time, user_tunit, user_activity1, user_aunit)
             result2 = bateman_trial(user_nuclide2, user_time, user_tunit, 0, user_aunit)
@@ -35,15 +37,14 @@ def input():
             result1 = bateman_trial(user_nuclide1, user_time, user_tunit, user_activity1, user_aunit)
             result2 = bateman_trial(user_nuclide2, user_time, user_tunit, user_activity2, user_aunit)
 
-        chain_generator = Generator()
+            for nuclide, value in result2.items():
+                print(nuclide, value)
+                if not result1.get(nuclide):
+                     result1[nuclide] = 0
+                result1[nuclide] += float(value)
 
-        # chains = chain_generator.get_for_nuclide_name(user_nuclide1)
+       # chains = chain_generator.get_for_nuclide_name(user_nuclide1)
 
-        for nuclide, value in result2.items():
-            print(nuclide, value)
-            if not result1.get(nuclide):
-                 result1[nuclide] = 0
-            result1[nuclide] += float(value)
 
         print(result1)
 
@@ -57,11 +58,13 @@ def input():
                        nuclide.halflife.unit
                           ]
 
-            result = {'name' : nuclide_name, other_data}
+            result = {nuclide_name : other_data}
             output_result.update(result)
-        print(output_result)
+            output_result2 = dict(sorted(output_result.items()))
 
-        return render_template("public/output.html", result1=output_result, aunit=user_aunit)
+        # print(output_result2)
+
+        return render_template("public/output.html", result1=output_result2, aunit=user_aunit)
 
     return render_template("public/input.html")
 
