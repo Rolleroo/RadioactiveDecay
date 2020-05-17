@@ -1,6 +1,6 @@
 {% extends "public/templates/public_template.html" %}
 
-{% block title %}Decay Chain Simulator{% endblock %}
+{% block title %}Radionuclide Mix Decay Simulator{% endblock %}
 
 {% block main %}
 
@@ -9,8 +9,8 @@
         <div class=""col">
         <h1>Input Data</h1>
         <hr>
-        <form action="/input" METHOD="POST">
 
+        <form action="/input2" METHOD="POST">
         <div class="form-group">
             <label for="time">Time</label>
             <input class="form-control" type="number" step="0.00001" name="time"  required>
@@ -41,16 +41,11 @@
     </select>
     </div>
 
-            <div class="form-group">
-            <label>Nuclide 1</label>
-            <input class="form-control" type="text" name="nuclide1"  required>
-        </div>
+            <p>
+          <textarea name="test" id="test" rows="25" STYLE = "COLOR: #ced4da; background-color: #495057; border-color: grey" ></textarea>
+                  </p>
 
-                    <div class="form-group">
-            <label>Activity 1</label>
-            <input class="form-control" type="number" step="0.00001"   name="activity1" required>
-        </div>
-
+        </p>
 
         <button type="submit" class="btn btn-outline-dark">Decay Nuclides</button>
 

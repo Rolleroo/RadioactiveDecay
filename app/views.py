@@ -2,9 +2,13 @@ from app import app
 from flask import render_template, request
 from app.businesslogic.BatemanDecay import bateman_trial
 from app.businesslogic.DecayChain import Generator
-from app.businesslogic.MeasurementUnit import Concentration
-from app.businesslogic.MeasurementUnit import Time
-from pint import UnitRegistry
+from app.businesslogic.TestEnd import TestEnd
+from app.businesslogic.BatemanMulti import BatemanMulti
+from app.businesslogic.OutputFormat import OutputFormat
+# from app.businesslogic.MeasurementUnit import Concentration
+# from app.businesslogic.MeasurementUnit import Time
+# from pint import UnitRegistry
+
 
 @app.route('/')
 def index():
@@ -19,54 +23,62 @@ def input():
 
         input = request.form
 
-        user_nuclide1 = str(input["nuclide1"])
-        user_nuclide2 = str(input["nuclide2"])
+
         user_time = float(input["time"])
         user_tunit = str(input["tunit"])
         user_aunit = str(input["aunit"])
-        user_activity1 = float(input["activity1"])
+
+        # bateman_results = BatemanMulti(dict_input, user_time, user_tunit, user_aunit)
 
         chain_generator = Generator()
 
-        if not input["activity2"]:
-            result1 = bateman_trial(user_nuclide1, user_time, user_tunit, user_activity1, user_aunit)
-            result2 = bateman_trial(user_nuclide2, user_time, user_tunit, 0, user_aunit)
+        bateman_results = {}
 
-        else:
-            user_activity2 = float(input["activity2"])
-            result1 = bateman_trial(user_nuclide1, user_time, user_tunit, user_activity1, user_aunit)
-            result2 = bateman_trial(user_nuclide2, user_time, user_tunit, user_activity2, user_aunit)
+        for key, value1 in input.items():
+            if key[0:8] == "activity":
+                nuclide_id = "nuclide" + str(key[8])
+                user_nuclide = input[str(nuclide_id)]
+                user_activity = float(value1)
+                result = bateman_trial(user_nuclide, user_time, user_tunit, user_activity, user_aunit)
 
-            for nuclide, value in result2.items():
-                print(nuclide, value)
-                if not result1.get(nuclide):
-                     result1[nuclide] = 0
-                result1[nuclide] += float(value)
-
-       # chains = chain_generator.get_for_nuclide_name(user_nuclide1)
+                for nuclide, value2 in result.items():
+                    if not bateman_results.get(nuclide):
+                         bateman_results[nuclide] = 0
+                    bateman_results[nuclide] += float(value2)
 
 
-        print(result1)
+        output_result = OutputFormat(bateman_results, user_aunit)
 
-        output_result = {}
 
-        for nuclide_name, f_nuc_conc in result1.items():
-            nuclide = chain_generator.nuclides_dict.get(nuclide_name)
-            other_data = [format(f_nuc_conc,'.4g'),
-                       user_aunit,
-                       nuclide.halflife.value,
-                       nuclide.halflife.unit
-                          ]
-
-            result = {nuclide_name : other_data}
-            output_result.update(result)
-            output_result2 = dict(sorted(output_result.items()))
-
-        # print(output_result2)
-
-        return render_template("public/output.html", result1=output_result2, aunit=user_aunit)
+        return render_template("public/output.html", result1=output_result, aunit=user_aunit)
 
     return render_template("public/input.html")
+
+@app.route('/input2', methods=["GET", "POST"])
+def input2():
+
+    if request.method == "POST":
+        ## sets the flask post to input
+        input = request.form
+
+        ## Grabs the user input and renames
+        user_time = float(input["time"])
+        user_tunit = str(input["tunit"])
+        user_aunit = str(input["aunit"])
+
+        ## Cleans up the text input from the user for input to BatemanMulti
+        dict_input = TestEnd(input["test"])
+
+        ## runs the user input text through bateman multinuclide run.
+        bateman_results = BatemanMulti(dict_input, user_time, user_tunit, user_aunit)
+
+        ## formats for return to flask and the webpage
+        output_result = OutputFormat(bateman_results, user_aunit)
+
+
+        return render_template("public/output.html", result1=output_result, aunit=user_aunit)
+
+    return render_template("public/input2.html")
 
 # @app.route("/about")
 # def about():

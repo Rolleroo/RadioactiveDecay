@@ -1,25 +1,20 @@
 from app.businesslogic.DecayChain import Generator
 from app.businesslogic.MeasurementUnit import Concentration
 from app.businesslogic.MeasurementUnit import Time
-from app.businesslogic.Nuclide import Nuclide
+
+## Bateman equation calculator from module
 from batemaneq import bateman_parent
+
 from math import log as ln # required for bateman module to function
+
+# Unit handling module
 from pint import UnitRegistry
-
 ureg = UnitRegistry()
-
-
 
 
 def bateman_trial(nuclide, time, tunit, conc, aunit):
 
     chain_generator = Generator()
-
-    # user supplied
-    # nuclide_name = "U-238"
-    # concentration_value = 30
-    # concentration_unit = 'Bq'
-    # decay_time = Time(1000000000, "yr").quantity
 
     nuclide_name = nuclide
     concentration_value = conc
@@ -42,9 +37,6 @@ def bateman_trial(nuclide, time, tunit, conc, aunit):
 
     ## loop over decay chains and calculate
     for idx, chain in enumerate(chains):
-
-
-        # print('Chain number:', idx + 1) # Testing, loop through of chains.
 
         Thalf = []
 
@@ -83,31 +75,6 @@ def bateman_trial(nuclide, time, tunit, conc, aunit):
             relative_conc = Concentration(final_conc * chain.ratio, concentration_unit)
 
             final_result[nuclide.name] += float(relative_conc.value)
-
-
-
-    # ## Reconstructs the data as a tuple and returns the result as output_result
-    # for nuclide_name, f_nuc_conc in final_result.items():
-    #     nuclide = chain_generator.nuclides_dict.get(nuclide_name)
-    #     # print(
-    #     #     nuclide.name, "\t ,Halflife:  ",
-    #     #     nuclide.halflife.value,
-    #     #     "\t\t",
-    #     #     nuclide.halflife.unit,
-    #     #     "\t Final Concentration:  ",
-    #     #     f_nuc_conc,
-    #     #     concentration_unit
-    #     #     )
-    #
-    #
-    #     # other_data = { 'name' : nuclide_name,
-    #     #                'conc' : format(f_nuc_conc,'.4g'),
-    #     #                'concunit' : concentration_unit,
-    #     #                'hl' : nuclide.halflife.value,
-    #     #                'hl_unit' : nuclide.halflife.unit
-    #     #                }
-    #     # output_result.update(other_data)
-    #     # # return output_result
 
 
     return final_result
