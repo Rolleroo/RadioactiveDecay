@@ -72,7 +72,8 @@ def input2():
         except ValueError:
             error1 = "Please reformat your input."
             error2 = "An example syntax is shown below"
-            return render_template("public/input2.html", error1=error1, error2=error2)
+            error3 = "Error"
+            return render_template("public/input2.html", error1=error1, error2=error2, error3=error3)
 
         ## runs the user input text through bateman multinuclide run.
         bateman_results = BatemanMulti(dict_input, user_time, user_tunit, user_aunit)
