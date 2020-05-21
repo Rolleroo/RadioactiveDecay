@@ -4,7 +4,7 @@ from app.businesslogic.BatemanDecay import bateman_trial
 from app.businesslogic.FormatInput import FormatInput
 from app.businesslogic.BatemanMulti import BatemanMulti
 from app.businesslogic.OutputFormat import OutputFormat
-
+import re
 
 @app.route('/')
 def index():
@@ -24,20 +24,23 @@ def input():
         user_time = float(input["time"])
         user_tunit = str(input["tunit"])
         user_aunit = str(input["aunit"])
+        user_nuclide = str(input["nuclide1"])
+        user_activity = float(input["activity1"])
 
         bateman_results = {}
 
-        for key, value1 in input.items():
-            if key[0:8] == "activity":
-                nuclide_id = "nuclide" + str(key[8])
-                user_nuclide = input[str(nuclide_id)]
-                user_activity = float(value1)
-                result = bateman_trial(user_nuclide, user_time, user_tunit, user_activity, user_aunit)
+        atomic_mass = int("".join(filter(str.isdigit, user_nuclide)))
+        element_regex = r"[a-zA-Z]{1,2}"
+        element = re.findall(element_regex, user_nuclide)[0]
+        element_f = element[0].upper() + element[1:]
+        nuclide_out = str(element_f) + "-" + str(atomic_mass)
 
-                for nuclide, value2 in result.items():
-                    if not bateman_results.get(nuclide):
-                         bateman_results[nuclide] = 0
-                    bateman_results[nuclide] += float(value2)
+        result = bateman_trial(nuclide_out, user_time, user_tunit, user_activity, user_aunit)
+
+        for nuclide, value2 in result.items():
+            if not bateman_results.get(nuclide):
+                 bateman_results[nuclide] = 0
+            bateman_results[nuclide] += float(value2)
 
 
         output_result = OutputFormat(bateman_results, user_aunit)
