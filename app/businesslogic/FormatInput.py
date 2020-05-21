@@ -1,7 +1,8 @@
-## This function removes extra carriage returns, formats the nuclides
+## For thThis function removes extra carriage returns, formats the nuclides
 # and splits the input whitespace (dict divide) and \r\n (next item)
 
 import re
+from app.businesslogic.NuclideFormatter import NuclideFormatter
 
 def FormatInput(inputs):
     unformatted = str(inputs)
@@ -15,11 +16,7 @@ def FormatInput(inputs):
     outputs = {}
     ## Splits digits and text for nuclides and reassembles in format XY-123
     for nuclide, values in formatted.items():
-        atomic_mass = int("".join(filter(str.isdigit, nuclide)))
-        element_regex = r"[a-zA-Z]{1,2}"
-        element = re.findall(element_regex, nuclide)[0]
-        element_f = element[0].upper() + element[1:]
-        nuclide_out = str(element_f) + "-" + str(atomic_mass)
+        nuclide_out = NuclideFormatter(nuclide)
         formatted2 = {nuclide_out: values}
         outputs.update(formatted2)
 

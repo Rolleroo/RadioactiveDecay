@@ -4,6 +4,8 @@ from app.businesslogic.BatemanDecay import bateman_trial
 from app.businesslogic.FormatInput import FormatInput
 from app.businesslogic.BatemanMulti import BatemanMulti
 from app.businesslogic.OutputFormat import OutputFormat
+from app.businesslogic.DecayChain import Generator
+from app.businesslogic.NuclideFormatter import NuclideFormatter
 import re
 
 @app.route('/')
@@ -29,11 +31,7 @@ def input():
 
         bateman_results = {}
 
-        atomic_mass = int("".join(filter(str.isdigit, user_nuclide)))
-        element_regex = r"[a-zA-Z]{1,2}"
-        element = re.findall(element_regex, user_nuclide)[0]
-        element_f = element[0].upper() + element[1:]
-        nuclide_out = str(element_f) + "-" + str(atomic_mass)
+        nuclide_out = NuclideFormatter(user_nuclide)
 
         result = bateman_trial(nuclide_out, user_time, user_tunit, user_activity, user_aunit)
 
@@ -85,3 +83,30 @@ def input2():
         return render_template("public/output.html", result1=output_result, aunit=user_aunit)
 
     return render_template("public/input2.html")
+
+@app.route('/hlsearch', methods=["GET", "POST"])
+def hlsearch():
+
+## This is the multi nuclide calculator and inputs a tab separated data
+
+    if request.method == "POST":
+        ## sets the flask post to input
+        input = request.form
+
+        ## Grabs the user input and renames
+        user_nuclide = NuclideFormatter(str(input["nuclide1"]))
+
+
+        # Finds the halflife using the Chain Generator Function
+        chain_generator = Generator()
+        nuclidess = chain_generator.nuclides_dict.get(user_nuclide)
+        hl = nuclidess.halflife.value
+        hl_unit = nuclidess.halflife.unit
+
+        ## formats for return to flask and the webpage
+        output_result = {user_nuclide : [hl, hl_unit]}
+
+
+        return render_template("public/hlout.html", result1=output_result)
+
+    return render_template("public/hlsearch.html")
