@@ -1,13 +1,9 @@
 from app import app
 from flask import render_template, request
 from app.businesslogic.BatemanDecay import bateman_trial
-from app.businesslogic.DecayChain import Generator
-from app.businesslogic.TestEnd import TestEnd
+from app.businesslogic.FormatInput import FormatInput
 from app.businesslogic.BatemanMulti import BatemanMulti
 from app.businesslogic.OutputFormat import OutputFormat
-# from app.businesslogic.MeasurementUnit import Concentration
-# from app.businesslogic.MeasurementUnit import Time
-# from pint import UnitRegistry
 
 
 @app.route('/')
@@ -19,18 +15,15 @@ def index():
 @app.route("/input", methods=["GET", "POST"])
 def input():
 
+## this is the single decay chaing site. It inputs only one nuclide and associated data
+
     if request.method == "POST":
 
         input = request.form
 
-
         user_time = float(input["time"])
         user_tunit = str(input["tunit"])
         user_aunit = str(input["aunit"])
-
-        # bateman_results = BatemanMulti(dict_input, user_time, user_tunit, user_aunit)
-
-        chain_generator = Generator()
 
         bateman_results = {}
 
@@ -57,6 +50,8 @@ def input():
 @app.route('/input2', methods=["GET", "POST"])
 def input2():
 
+## This is the multi nuclide calculator and inputs a tab separated data
+
     if request.method == "POST":
         ## sets the flask post to input
         input = request.form
@@ -66,8 +61,15 @@ def input2():
         user_tunit = str(input["tunit"])
         user_aunit = str(input["aunit"])
 
-        ## Cleans up the text input from the user for input to BatemanMulti
-        dict_input = TestEnd(input["test"])
+        user_nuc_conc = input["test"]
+
+        # Cleans up empty spaces and formats for splits to dictionary for bateman
+        try:
+            dict_input = FormatInput(user_nuc_conc)
+        except ValueError:
+            error1 = "Please reformat your input."
+            error2 = "An example syntax is shown below"
+            return render_template("public/input2.html", error1=error1, error2=error2)
 
         ## runs the user input text through bateman multinuclide run.
         bateman_results = BatemanMulti(dict_input, user_time, user_tunit, user_aunit)
@@ -79,12 +81,3 @@ def input2():
         return render_template("public/output.html", result1=output_result, aunit=user_aunit)
 
     return render_template("public/input2.html")
-
-# @app.route("/about")
-# def about():
-#     return """
-#     <h1 style='color: red;'>I'm a red H1 heading!</h1>
-#     <p>This is a lovely little paragraph</p>
-#     <code>Flask is <em>awesome</em></code>
-#     """
-
