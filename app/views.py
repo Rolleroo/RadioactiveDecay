@@ -70,9 +70,11 @@ def input2():
             # Cleans up empty spaces and formats for splits to dictionary for bateman
         except ValueError:
             error1 = "Please reformat your input."
-            error2 = "An example syntax is shown below"
-            error3 = "Error"
-            return render_template("public/input2.html", error1=error1, error2=error2, error3=error3)
+            error2 = "Use a new line for each nuclide"
+            error3 = "An example syntax is shown below"
+            error4 = "Error"
+            return render_template("public/input2.html", error1=error1, error2=error2, error3=error3, errror4=error4,
+                                   user_time=user_time)
         ## Error handling messages
 
         ## runs the user input text through bateman multinuclide run.
