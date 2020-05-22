@@ -64,14 +64,16 @@ def input2():
 
         user_nuc_conc = input["test"]
 
-        # Cleans up empty spaces and formats for splits to dictionary for bateman
+
         try:
             dict_input = FormatInput(user_nuc_conc)
+            # Cleans up empty spaces and formats for splits to dictionary for bateman
         except ValueError:
             error1 = "Please reformat your input."
             error2 = "An example syntax is shown below"
             error3 = "Error"
             return render_template("public/input2.html", error1=error1, error2=error2, error3=error3)
+        ## Error handling messages
 
         ## runs the user input text through bateman multinuclide run.
         bateman_results = BatemanMulti(dict_input, user_time, user_tunit, user_aunit)
