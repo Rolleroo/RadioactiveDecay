@@ -5,7 +5,6 @@ import re
 from app.businesslogic.NuclideFormatter import NuclideFormatter
 
 def FormatInput(inputs):
-    print(inputs)
     unformatted = str(inputs)
     ## Removes extra carriage returns from the beginning and end
     while unformatted[-2:] == "\r\n":
@@ -23,7 +22,7 @@ def FormatInput(inputs):
         conc = float(values[1])
         nuclide_out = NuclideFormatter(nuclide)
         formatted = {nuclide_out: conc}
-        print(formatted)
+        ## Adds the formatted nuclide to the outputs dictionary. Duplicates are summed.
         for k in formatted.keys():
             outputs[k] = outputs.get(k,0) + formatted[k]
 
