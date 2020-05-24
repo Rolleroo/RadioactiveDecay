@@ -68,7 +68,7 @@ def input2():
         try:
             dict_input = FormatInput(user_nuc_conc)
             # Cleans up empty spaces and formats for splits to dictionary for bateman
-        except ValueError:
+        except (ValueError, IndexError):
             error1 = "Please reformat your input."
             error2 = "Use a new line for each nuclide"
             error3 = "An example syntax is shown below"
