@@ -64,7 +64,6 @@ def input2():
 
         user_nuc_conc = input["test"]
 
-
         try:
             dict_input = FormatInput(user_nuc_conc)
             # Cleans up empty spaces and formats for splits to dictionary for bateman
@@ -73,7 +72,7 @@ def input2():
             error2 = "Use a new line for each nuclide"
             error3 = "An example syntax is shown below"
             error4 = "Error"
-            return render_template("public/input2.html", error1=error1, error2=error2, error3=error3, errror4=error4,
+            return render_template("public/input2.html", error1=error1, error2=error2, error3=error3, error4=error4,
                                    user_time=user_time)
         ## Error handling messages
 
