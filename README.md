@@ -7,6 +7,8 @@ A simple front end html is used to acquire user input.
 
 Current configurations only run on Linux server and require C++ compiler such as gcc.
 
+Git software, although not stricly necessary if ther repository is manually copied in.
+
 To install:
 
 Download the source code
@@ -17,7 +19,7 @@ Setup a python environment
 
 Change to app directory
 
-    cd ~/app
+    cd RadioactiveDecay
 
 Setup up the Virtual Environment and activate it.
 
@@ -25,13 +27,14 @@ Setup up the Virtual Environment and activate it.
     
     source env/bin/activate
 
-Update
+Update & Install Requirements
 
     pip install --upgrade pip
+    pip install -r /path/to/requirements.txt
 
 Run the python app
 
-    python app.py
+    python run.py
 
 
 
