@@ -5,12 +5,33 @@ This is a python based program which uses a C++ based python module to calculate
 
 A simple front end html is used to acquire user input.
 
-Read Requirements.txt for require python modules.
+Current configurations only run on Linux server and require C++ compiler such as gcc.
 
 To install:
 
 Download the source code
 
-git clone https://github.com/Rolleroo/RadioactiveDecay.git
+    git clone https://github.com/Rolleroo/RadioactiveDecay.git
 
-python -m venv env
+Setup a python environment
+
+Change to app directory
+
+    cd ~/app
+
+Setup up the Virtual Environment and activate it.
+
+    python -m venv env
+    
+    source env/bin/activate
+
+Update
+
+    pip install --upgrade pip
+
+Run the python app
+
+    python app.py
+
+
+
