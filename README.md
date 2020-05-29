@@ -36,5 +36,13 @@ Run the python app
 
     python run.py
 
+## Data
+* Radionuclide decay
+Article: https://www.icrp.org/publication.asp?id=ICRP%20Publication%20107
+Supplementary Data (ZIP file): https://journals.sagepub.com/doi/suppl/10.1177/ANIB_38_3
+File used: ./ICRP-07.NDX (column names as per ./UserGuide.pdf - table on page 4)
+
+## Thanks
+With particular thanks to @bjodah for use of the batemaneq module (https://github.com/bjodah/batemaneq).
 
 
