@@ -20,6 +20,7 @@ def bateman_trial(nuclide, time, tunit, conc, aunit):
     concentration_value = conc
     concentration_unit = aunit
     decay_time = Time(time, tunit).quantity
+    decay_time.ito(ureg.years)
 
     # start process of calculating stuff
     concentration = Concentration(
@@ -60,6 +61,7 @@ def bateman_trial(nuclide, time, tunit, conc, aunit):
             if item.nuclide.halflife != None:
                 x = item.nuclide.halflife.quantity
                 x.ito(ureg.years)
+                print(x.magnitude)
                 Thalf.append(x.magnitude)
 
         ## Runs results through bateman module.

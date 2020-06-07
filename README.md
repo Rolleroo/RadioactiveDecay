@@ -7,7 +7,7 @@ A simple front end html is used to acquire user input.
 
 Current configurations only run on Linux server and require C++ compiler such as gcc.
 
-Git software, although not stricly necessary if ther repository is manually copied in.
+Git software, although not strictly necessary if the repository is manually copied in.
 
 To install:
 

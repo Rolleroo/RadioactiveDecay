@@ -8,8 +8,8 @@ ureg.define('Gy = yr * 1000000000 = [time]')
 ureg.define('Ty = yr * 1000000000000 = [time]')
 ureg.define('Py = yr * 1000000000000000 = [time]')
 ureg.define('y  = yr = [time]')
-ureg.define('m  = sec * 60 = [time]')
-ureg.define('h  = sec * 3600 = [time]')
+ureg.define('m  = second * 60 = [time]')
+ureg.define('h  = second * 3600 = [time]')
 
 class Base:
     def __init__(self, value: float, unit: str):
