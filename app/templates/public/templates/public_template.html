@@ -83,8 +83,8 @@
     /* Custom filtering function which will search data in column four between two values */
     $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
-            var min = parseInt($('#min').val(), 10);
-            var max = parseInt($('#max').val(), 10);
+            var min = parseFloat($('#min').val(), 10);
+            var max = parseFloat($('#max').val(), 10);
             var halflife = parseFloat(data[4]) || 0; // use data for the halflife column
 
             return (isNaN(min) && isNaN(max)) ||
