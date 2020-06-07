@@ -1,75 +1,115 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
     <!-- custon css -->
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <title>{% block title %}{% endblock %} </title>
-  </head>
+</head>
 
-  <nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color:#E5E4E2">
-  <a class="navbar-brand" href="/">Decay Calculator Home</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="/input">Decay Chain</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/input2">Mixture</a>
-              </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/hlsearch">Halflife Search</a>
+<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color:#E5E4E2">
+    <a class="navbar-brand" href="/">Decay Calculator Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/input">Decay Chain</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/input2">Mixture</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/hlsearch">Halflife Search</a>
 
-    </ul>
-  </div>
+        </ul>
+    </div>
 </nav>
-  <body>
-    <div class = "starter-template"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3">
-            <a href="\"><img style="max-width: 300px" class="logo img-responsive" src="{{url_for('static', filename= 'img/chain_icon.png') }}" alt="decay chain">
-          </a>
-          </div>
-          <div class="col-md-10">
+<body>
+<div class="starter-template"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <a href="\"><img style="max-width: 300px" class="logo img-responsive"
+                             src="{{ url_for('static', filename= 'img/chain_icon.png') }}" alt="decay chain">
+            </a>
+        </div>
+        <div class="col-md-10">
             {% block main %}
                 <p>No content</p>
             {% endblock main %}
-          </div>
         </div>
+    </div>
 
-<br>
-      <br>
+    <br>
+    <br>
 
-        <div class="row">
-          <div class="links">
+    <div class="row">
+        <div class="links">
             <ul>
-            <li><i class="glyphicon glyphicon-cog icon-muted"></i><a href="https://github.com/Rolleroo/RadioactiveDecay">Github Project</a></li>
+                <li><i class="glyphicon glyphicon-cog icon-muted"></i><a
+                        href="https://github.com/Rolleroo/RadioactiveDecay">Github Project</a></li>
             </ul>
-          </div>
         </div>
-        <div class="row">
-          <div class="copyright">
+    </div>
+    <div class="row">
+        <div class="copyright">
             &copy; Rolleroo
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    /* JQuery script to show table and allow filterting.
+    /* Custom filtering function which will search data in column four between two values */
+    $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+            var min = parseInt($('#min').val(), 10);
+            var max = parseInt($('#max').val(), 10);
+            var halflife = parseFloat(data[4]) || 0; // use data for the halflife column
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+            return (isNaN(min) && isNaN(max)) ||
+                (isNaN(min) && halflife <= max) ||
+                (min <= halflife && isNaN(max)) ||
+                (min <= halflife && halflife <= max);
+        }
+    );
+
+    $(document).ready(function () {
+
+        var table = $('#mydatatable').DataTable({
+            paging : false,
+            // Pulls the filter "f" left followed by #}
+            "dom": '<"pull-left" f>rt<"bottom"i>' //
+
+        });
+                    table.column( 4 ).visible( false );
+
+
+        // Event listener to the two range filtering inputs to redraw on input
+        $('#min, #max').keyup(function () {
+            table.draw();
+        });
+    });
+</script>
+</body>
 </html>
