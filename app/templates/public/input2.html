@@ -10,7 +10,7 @@
         <h1><p>Mixture</p>
             Input Data {{ error4 }} </h1>
         <hr>
-            <p> Enter the time, units and concentration</p>
+            <p> Enter the time, activity and nuclides</p>
             <p>
             </p>
 
@@ -50,20 +50,19 @@
     </div>
               </p>
 
-            <p>It must be in the format:</p>
-            <p><b>"nuclide" *tab* or *space* "activity"</b></p>
-
+                <label for="selectActivityUnits">Select Radionuclides</label>
+            <h6>It must be in the format: <br>
+                "Nuclide" <i>tab</i> or <i>space</i> "Activity"</h6>
             <p><b>{{ error1 }}</b></p>
             <p><b>{{ error2 }}</b></p>
             <p><b>{{ error3 }}</b></p>
-            <button type="submit" class="btn btn-outline-dark">Decay Nuclides</button>
-            <p>
-                <br>
 
-          <textarea name="test" id="test" rows="20" cols="30">
+            <p>
+          <textarea name="test" id="test" rows="7" cols="30">
 U-235   1
 U-238   1</textarea>
                   </p>
+            <button type="submit" class="btn btn-outline-dark">Decay Nuclides</button>
 
         </p>
 

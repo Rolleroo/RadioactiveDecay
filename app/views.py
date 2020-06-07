@@ -68,9 +68,9 @@ def input2():
             dict_input = FormatInput(user_nuc_conc)
             # Cleans up empty spaces and formats for splits to dictionary for bateman
         except (ValueError, IndexError):
-            error1 = "Please reformat your input."
+            error1 = "Please reformat your input. See Example"
             error2 = "Use a new line for each nuclide"
-            error3 = "An example syntax is shown below"
+            error3 = "Data can be pasted from Excel"
             error4 = "Error"
             return render_template("public/input2.html", error1=error1, error2=error2, error3=error3, error4=error4,
                                    user_time=user_time)
