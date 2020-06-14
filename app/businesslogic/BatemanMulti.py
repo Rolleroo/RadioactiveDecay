@@ -1,6 +1,6 @@
 from app.businesslogic.BatemanDecay import bateman_trial
 
-def BatemanMulti(dict_input, user_time, user_tunit, user_aunit):
+def bateman_multi(dict_input, user_time, user_tunit, user_aunit):
     results = {}
 
     inputs = dict_input
